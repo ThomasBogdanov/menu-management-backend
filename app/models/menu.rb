@@ -1,2 +1,6 @@
 class Menu < ApplicationRecord
+  has_many :menu_items
+
+  validates_presence_of :name
+  validates :start_time, allow_blank: true, comparison: { greater_than: :end_time }
 end
