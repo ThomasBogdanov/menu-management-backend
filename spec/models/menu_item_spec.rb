@@ -2,16 +2,17 @@ require 'rails_helper'
 
 RSpec.describe MenuItem, type: :model do
   it 'is valid with valid attributes' do
-    expect(MenuItem.new).to be_valid
+    menu_item = build(:menu_item)
+    expect(menu_item).to be_valid
   end
 
   it 'is not valid with invlid attributes' do
-    menu_item = MenuItem.new(name: nil)
+    menu_item = build(:menu_item, name: nil)
     expect(menu_item).to_not be_valid
   end
 
   it 'is not valid with an empty name string' do
-    menu_item = MenuItem.new(name: '')
+    menu_item = build(:menu_item, name: '')
     expect(menu_item).to_not be_valid
   end
 
