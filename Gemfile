@@ -52,6 +52,7 @@ group :development, :test do
   # Security
   gem 'brakeman', '~> 5.2', '>= 5.2.3'
   gem 'bundler-audit', '~> 0.9.1'
+  gem 'figaro', '~> 1.2'
   gem 'ruby_audit', '~> 2.1'
 end
 
@@ -59,3 +60,5 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+gem 'airbrake', '~> 13.0'
