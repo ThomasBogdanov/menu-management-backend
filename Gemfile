@@ -61,4 +61,4 @@ group :development do
   # gem "spring"
 end
 
-gem "airbrake", "~> 13.0"
+gem 'airbrake', '~> 13.0'
