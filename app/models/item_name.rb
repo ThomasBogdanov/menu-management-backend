@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemName < ApplicationRecord
   has_many :items
 

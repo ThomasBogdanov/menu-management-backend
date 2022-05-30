@@ -15,15 +15,23 @@ Metrics/CyclomaticComplexity:
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
 Metrics/MethodLength:
   Max: 12
+  Exclude:
+    - 'db/migrate/*'
 
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
 
 # Offense count: 1
 # Configuration parameters: IgnoredMethods.
 Metrics/PerceivedComplexity:
   Max: 9
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
 
 # Offense count: 3
 # Configuration parameters: AllowedConstants.
@@ -32,8 +40,7 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'config/application.rb'
-    - 'db/migrate/20220528012841_create_menus.rb'
-    - 'db/migrate/20220528042051_create_menu_items.rb'
+    - 'db/migrate/*'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
