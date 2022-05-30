@@ -7,5 +7,7 @@ FactoryBot.define do
     start_time { Time.now }
     end_time { Time.now + 2 }
     is_active { true }
+    association :restaurant, strategy: :build
+    restaurant_id { restaurant.id }
   end
 end

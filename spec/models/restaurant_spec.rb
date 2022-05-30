@@ -15,7 +15,7 @@ RSpec.describe Restaurant, type: :model do
 
     it 'is not valid with invalid attributes' do
       restaurant = build(:restaurant, name: nil)
-      expect(restaurant).to_not be valid
+      expect(restaurant).to_not be_valid
     end
 
     it 'is not valid with an empty name string' do
