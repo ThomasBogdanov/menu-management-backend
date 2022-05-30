@@ -45,6 +45,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rspec-rails', '~> 6.0.0.rc1'
   gem 'shoulda-matchers', '~> 5.1'
+  gem 'simplecov', '~> 0.12.0'
   # Linting
   gem 'rubocop', '~> 1.30'
   gem 'rubocop-rails', '~> 2.14', '>= 2.14.2'
