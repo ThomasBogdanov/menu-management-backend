@@ -9,6 +9,7 @@ This document contains all information pertaining to database schemas, decisions
 ## Table of Contents
 * [Languages and Technologies](#languages-and-technologies)
 * [Level One: Basics](#level-one-basics)
+* [Level Two: Multiple Menus](#level-two-multiple-menus)
 
 ## Languages and Technologies
 This project is created with:
@@ -22,6 +23,7 @@ Testing:
 * Factory_Bot_Rails 6.2
 * rSpec-Rails 6.0.0.rc1
 * Shoulda-Matchers 5.1
+* SimpleCov 0.12.0
 
 Linting:
 * Rubocop 1.30
@@ -37,7 +39,7 @@ Security:
 Error Monitoring and Notifier:
 * Airbrake 13.0
 
-## Level One: Basics
+# Level One: Basics
 
 The tasks given for level one were to create an Object Model for `Menu` and `MenuItem` classes. `Menu` has many `MenuItem`s and both have typical data associated with restaurants. All behaviour in this level is illustrated via validation and association unit tests using rSpec.
 
@@ -52,6 +54,35 @@ For the `MenuItem`s table, most of the fields are self-explanatory. I added an o
 ## CI/CD with Automated Testing
 
 For this assignment, I wanted to try my best to recreate a production level application, so I implimented CI/CD using Github Actions. Checks include automated testing, lint checks, security vulnerability checks(Brakeman and Ruby_Audit) and patch-level verification for bundler(Bundler-Audit).
+
+## Error Monitoring and Alerting
+
+I set up Airbrake to record and alert any errors to me via email that may occur while the app is running. Slack and other integratons are available upon request. It will be more useful once endpoints are created and app is hosted on Heroku.
+
+# Level Two: Multiple Menus
+
+The tasks given for level two were to introduce a `Restaurant` model, and allow `Restaurant`s to have multiple `Menu`s. A few other requirements were to have `MenuItem` names not be duplicated in the database and `MenuItem`s can be on multiple `Menu`s of a `Restaurant`
+
+## Database Schema
+
+![Level 2 Schema](./images/level-two-db-schema.png)
+
+Since there were a few changes to the requirements, I needed to change around the schemas and tables a little bit. I added the `Restaurant` table with most of the data that would be associated with it. I considered creating a category table for normalization but kept it to the scope of the level's requirements. 
+
+`Menu` was given a `restuarant_id` field for a one-to-many relationship. This is where I came to a crossroad with my development of this assignment. The requirement to make `MenuItem` names unique was a challenge that required a few more tables. I considered a few cases for the requirement and possible solutions:
+
+1. Duplicate names on the same menu - This would just be fixed via making sure the `MenuItem` didnt exist within the same menu. This seemed like a good edge case to look out for but not a solution to the problem.
+
+2. Duplicate names and other fields across different menus of the same restaurant (A duplicate `MenuItem`). This seemed to be more closely related to what the problem was talking about. The only problem I saw with this would be that the `MenuItem`s name could technically be repeated elsewhere in the database(ex. Two restaurants having a Legendary Burger). The problem required a solution that would account for same-restuarant items but also across other restaurants.
+
+3. Duplicate names across the ENTIRE database. Since the assignment stated that `MenuItem` names should not be repeated in the database, I took it at face value and decided to normalize food item names with a new table, `ItemNames`.
+
+I changed the `MenuItem` table to a join table for the new `Item` table. This was to accomodate the restriction and requirements of the level. The `Item` table basically inherited all the old fields of `MenuItem` and were removed from the `MenuItem` table. The final piece was to make the name table- `ItemNames`. Now this database schema could handle slightly different items as well as the same items being used within both the same restaurant, and not having overlap with other restaurants.
+
+## Code Coverage
+
+Since the project was starting to grow with more tests being created, I decided to impliment the gem 'SimpleCov' to produce a simple code-coverage report after tests are ran.
+
 
 
 
