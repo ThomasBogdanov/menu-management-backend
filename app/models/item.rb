@@ -1,3 +1,6 @@
 class Item < ApplicationRecord
-  belongs_to :item_name
+  has_many :menu_items
+  has_many :menus, through: :menu_items
+
+  has_one :item_name
 end

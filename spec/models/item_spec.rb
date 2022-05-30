@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   describe 'Associations' do
     it 'should have many menu_items' do
-      should has_one(:menu_item)
+      should has_many(:menu_items)
     end
 
     it 'should have one item_name' do
