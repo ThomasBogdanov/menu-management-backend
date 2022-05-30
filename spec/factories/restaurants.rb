@@ -9,7 +9,7 @@ FactoryBot.define do
     postal_code { "83653" }
     phone_number1 { "6041111111" }
     phone_number2 { "6042222222" }
-    fax_number { "MyString" }
+    fax_number { "6043333333" }
     email { "ChickenFryer@Henquarters.com" }
     website { "ChickenAllDay.com" }
     price_range { "3-30" }

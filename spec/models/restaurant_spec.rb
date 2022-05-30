@@ -13,6 +13,8 @@ RSpec.describe Restaurant, type: :model do
       expect(restaurant).to be_valid
     end
 
+    it { should validate_presence_of :name }
+
     it 'is not valid with invalid attributes' do
       restaurant = build(:restaurant, name: nil)
       expect(restaurant).to_not be_valid

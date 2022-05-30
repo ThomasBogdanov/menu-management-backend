@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   describe 'Associations' do
     it 'should have many menu_items' do
-      should has_many(:menu_items)
+      should have_many(:menu_items)
     end
 
     it 'should have one item_name' do
-      should has_one(:item_name)
+      should belong_to(:item_name)
     end
 
     # Must have a name reference
@@ -22,5 +22,7 @@ RSpec.describe Item, type: :model do
       item = build(:item)
       expect(item).to be_valid
     end
+
+    it { should validate_presence_of :price }
   end
 end

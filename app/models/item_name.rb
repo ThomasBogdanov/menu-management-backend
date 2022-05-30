@@ -1,5 +1,5 @@
 class ItemName < ApplicationRecord
   has_many :items
 
-  validates :name, uniqueness: { case_sensitive: false }
+  validates_presence_of :name, uniqueness: { case_sensitive: false }
 end

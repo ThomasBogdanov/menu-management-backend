@@ -6,5 +6,6 @@ FactoryBot.define do
     association :menu, strategy: :build
     menu_id { menu.id }
     association :item, strategy: :build
+    item_id { item.id }
   end
 end
