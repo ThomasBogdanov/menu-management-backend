@@ -13,7 +13,7 @@ class Menu < ApplicationRecord
     added_menus = []
     param['menus'].each do |menu|
       new_menu = Menu.create(restaurant_id: restaurant.id, name: menu['name'])
-      added_menus << [new_menu, menu['menu_items']]
+      added_menus << [new_menu.id, menu['menu_items']]
     end
     added_menus
   end
