@@ -2,8 +2,6 @@
 
 ## General Info
 
-"Menu Management Backend" is an api built in Ruby on Rails with the most up-to-date technologies for a take home assignment. This assignment has three levels, and assumptions made throughout were only for the levels being worked on, and not future levels. This is to demonstrate the ability to write extensible, modular, well-tested and modifiable code. Testing throughout the assignment was done following TDD principles and using the Red-Green-Refactor cycle.
-
 This document contains all information pertaining to database schemas, decisions made throughout the assignment and why, technologies used, functionality and general thought processes. 
 
 ## Table of Contents
