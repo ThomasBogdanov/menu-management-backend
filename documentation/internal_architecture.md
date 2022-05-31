@@ -10,6 +10,7 @@ This document contains all information pertaining to database schemas, decisions
 * [Languages and Technologies](#languages-and-technologies)
 * [Level One: Basics](#level-one-basics)
 * [Level Two: Multiple Menus](#level-two-multiple-menus)
+* [Level Three: JSON Consumption](#level-three-json-consumption)
 
 ## Languages and Technologies
 This project is created with:
@@ -57,7 +58,9 @@ For this assignment, I wanted to try my best to recreate a production level appl
 
 ## Error Monitoring and Alerting
 
-I set up Airbrake to record and alert any errors to me via email that may occur while the app is running. Slack and other integratons are available upon request. It will be more useful once endpoints are created and app is hosted on Heroku.
+I set up Airbrake to record and alert any errors to me via email that may occur while the app is running. Slack and other integratons are available upon request. It will be more useful once endpoints are created and app is hosted on Heroku. This is a snapshot of the dashboard for this project's monitoring.
+
+![Airbrake Dashboard](./images/airbrake-project-picture.png)
 
 # Level Two: Multiple Menus
 
@@ -83,6 +86,85 @@ I changed the `MenuItem` table to a join table for the new `Item` table. This wa
 
 Since the project was starting to grow with more tests being created, I decided to impliment the gem 'SimpleCov' to produce a simple code-coverage report after tests are ran.
 
+# Level Three: JSON Consumption
 
+The tasks given for level three were to convert a JSON body into the new system, and to make any changes to the models I designed to make the import as complete as possible. Output for the JSON would be a list of logs for each restaurant's menu items being added, with success or fail statuses.
 
+## JSON Format
 
+The format accepted by this API by the POST /restaurant is as follows:
+
+```json
+{
+    "restaurants": [
+        {
+            "name": "Fried Chicken 24/7",
+            "menus": [
+                {
+                    "name": "Lunch",
+                    "menu_items": [
+                        {
+                            "name": "Chicken",
+                            "price": 9.00
+                        },
+                        {
+                            "name": "Chicken Nuggets",
+                            "price": 7.99
+                        }
+                    ],
+                    "name": "Dinner",
+                    "menu_items": [
+                        {
+                            "name": "Extra crispy Chicken",
+                            "price": 13.99
+                        },
+                        {
+                            "name": "Spicy Chicken",
+                            "price": 4.99
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+The API accepts nested nestaurants, menus and menu_items.
+
+## Database Schema
+
+The database schema I created from level two was adequate for the tasks of level three. No modifations were made to the tables aside from a couple validation changes. 
+
+## Assumptions Made
+
+I weighed a couple options for how I wanted this API to consume the JSON. The two I came up with were a seed file and an endpoint. Since the level requirement stated a json 'BODY' I decided to go with a POST endpoint. This seemed like the better option because it would be more accessible to customers. 
+
+Since there was no user table to go with the assignment, we can assume that authorization isn't necessary. On a production environment though, it would absolutely be necessary for most endpoints the API could have. 
+
+As for how I handled the JSON, I would have liked to use nested attributes for a cleaner controller and to utilize the magic/power of Active Record. It seems like it would work extremely well in this use-case. The JSON though did not include _attributes on its nested fields, so I went with a more direct approach with inserting rows as I traversed the JSON rather than changing the structure of the JSON.
+
+I believe the toughest part of this assignment was considering the edge cases while inserting the JSON. Primarily where the menu_item names duplicates happened. This is the flow chart I created prior to working on the API. 
+
+![item-name-flow-chart](./images/item-name-flow-chart.png)
+
+A few other edge cases that I considered to be out of scope of the project were
+
+* Chain restaurants and how their menus are handled
+* Different types of currency for restaurants outside of the US
+* Authorization for malicious intent checks
+* Repeated menus within a restaurant and updating already-created ones
+* Endpoints to grab full restaurant data (Entire restaurant -> item datasets)
+* Endpoints to insert at different points of the db schema rather than just the top level
+
+## Goals I wanted to achieve if I had more time
+
+* Heroku hosting with easy commands to deploy to all environments with my built-in CI/CD pipeline
+* Since the API was being built during the last level, I didn't go through with creating a Dev/Staging/Prod environment
+* The concept of chaos engineering testing is super interesting to me and I would have loved to learn how to impliment it for this API
+* More testing. I definitely rushed through level three a bit and I acknowledge there are pieces that I'd want to refactor and work on more
+* Integration tests for the full flow rather than just unit tests
+* Created a better formated response object that accounted for more edge cases
+* Create an evidence of testing document to cover methods used, manual testing, test protocols and future goals
+
+If you have any questions feel free to send an email to ThomasBogdanov1@gmail.com!
