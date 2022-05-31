@@ -8,27 +8,15 @@ class RestaurantsController < ApplicationController
     render json: @restaurants
   end
 
-  # # GET /restaurants/1
-  # def show
-  #   render json: @restaurant
-  # end
-
   # POST /restaurants
   def create
     success = []
     failure = []
-    restaurant_params.each do |params|
-      @restaurant = Restaurant.new(params)
-      if @restaurant.save
-        success << @restaurant
-      else
-        failure << [@restaurant, @restaurant.errors]
-      end
+    restaurant_params.each do |param|
+      @restaurant = Restaurant.new(name: param['name'])
+      menus = Menu.create_menus(param, @restaurant)
     end
-
-    render_hash = { success: success, failure: failure }
-
-    render json: render_hash
+    render json: { success: success, failure: failure }
   end
 
   private
@@ -38,12 +26,9 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def restaurant_params
     params.require(:restaurants).map do |params|
-      params.permit(:name, :address_line1, :address_line2,
-                    :city, :state, :country, :postal_code, :phone_number1, :phone_number2,
-                    :fax_number, :email, :website, :price_range, :category, :is_active)
+      params.permit(:name, menus: [:name, menu_items: [:name, :price]])
     end
   end
 end
